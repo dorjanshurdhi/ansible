@@ -1,0 +1,8 @@
+- name: Introduction Ansible Playbook
+  hosts: all
+  become: 'yes'
+  gather_facts: false
+  tasks:
+  - name: Checking conncetion via ping
+    ping:
+

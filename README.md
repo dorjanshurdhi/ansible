@@ -1,1 +1,103 @@
-# ansible
+# Ansible
+
+#ping machines under web_app group
+ansible web_app -m ping
+
+#run a simple linux command on all machines under hosts file
+ansible all -m shell -a "free -m && uptime"
+
+#copy a simple file from local to remote machines under web-app groups on remote tmp directory
+ansible web_app -m copy -a "src=/root/kubernetes/ansible/ansible_test.txt dest=/tmp"
+
+#copy some content to remote machines under web_app creating a new file on remote machines
+ansible web_app -m copy -a "content='This is Dorjan' dest=/tmp/dorian.txt"
+
+#create a file on remote machines on web-app group under tmp directory
+ansible web_app -m file -a "dest=/tmp/test_ansible state=touch"
+
+#create a file on remote machines on web-app group under tmp directory with executable permission
+ansible web_app -m file -a "dest=/tmp/test_ansible.py state=touch mode=0755"
+
+#create a directory on remote machines on web-app group under tmp directory
+ansible web_app -m file -a "dest=/tmp/temp/dorian state=directory"
+
+#delete directory on remote machines on web-app group under tmp directory
+ansible web_app -m file -a "dest=/tmp/temp/dorian state=absent"
+
+#check if nginx is installed or not on you linux clients under webb_app groups (we are using yu becous our servers are Linux server Amazon AMI)
+ansible web_app -m shell -a "sudo yum list installed | grep nginx" #this command will fail woth any explanation
+#the correct command is to use ansible yum module to have more information in output
+ansible web_app -m yum -a "name=nginx state=present"
+
+#check if git is installed or not on you linux clients under webb_app groups
+ansible web_app -m yum -a "name=git state=present" #this command will fail becouse we are using ec2-user on our host file and this user don't have the permission to read this file
+#to solve the permission problem we can use -b parameter to access instances as user
+ansible web_app -m yum -a "name=git state=present" -b #if it is not installed it will install it and the next time you run the same command the output should be different
+
+#check if I have installed the latest version of python3 on my remote machines under web_app group
+ansible web_app -m yum -a "name=python3 state=latest" -b
+
+##INFO##
+#the state comand can include only thoose commands; absent, installed, latest, present, removed
+#use -b to lounch commands as a root user
+
+#check all the information of machines present on group web-app
+ansible web_app -m setup
+
+#how to filter some details from previous command
+ansible web_app -m setup -a "filter=ansible_all_ipv4_addresses"  #list out ip address
+ansible web_app -m setup -a "filter=ansible_memory_mb"			 #list out memory usage
+
+#check all the "gcp" or "aws" modules present
+ansible-doc -l | grep gcp  #for gcp modules
+ansible-doc -l | grep aws  #for aws modules
+
+#how to check out all the information of a certain module
+ansible-doc google.cloud.gcp_compute_health_check
+
+#how to list all inventory plugin
+ansible-doc -t inventory -l
+
+#Add enableplugin syntax in ansible cfg file (add this 2 lines in your ansible.cfg)
+[inventory]
+enable_plugins = host_list, script, auto, yaml, ini, toml
+
+#to get authomatically aws ec2 ip we need to install boto3 and botocore e connect it with our aws account
+pip3 install boto3
+pip3 install botocore
+
+#with this command we can check inventory connection for aws
+ansible-doc -t inventory -l | grep aws
+
+#we have to create a demo.aws_ec2.yml file to allow aws conncetion with my ec2 instances
+plugin: amazon.aws.aws_ec2
+
+#after that we run our ansible command specifying the inventory in runtime
+ansible-inventory -i demo.aws_ec2.yml --list   #list my aws resources
+ansible-inventory -i demo.aws_ec2.yml --graph  #show my ec2 instances
+
+#with this command we can ping our ec2 instances specifing even the user in runtime
+ansible all -i demo.aws_ec2.yml -u ec2-user -m ping
+
+#to filter only running instance on aws we need to add this filter in our demo.aws.aws_ec2.yml
+filter:
+   instance-state-name: running
+
+#create a simple playbook file named intro_playbook.yml
+- name: Introduction Ansible Playbook
+  hosts: all
+  become: 'yes'
+
+  tasks:
+  - name: Checking conncetion via ping
+    ping
+
+
+#then run ansible-playbook command to run each playbook
+ansible-playbook -i demo.aws_ec2.yml -u ec2-user playbook_intro/intro_palybook.yml
+
+#how to execute syntaxh check before running ansible-playbook
+ansible-playbook -i demo.aws_ec2.yml -u ec2-user playbook_intro/intro_palybook.yml --syntax-check
+
+
+

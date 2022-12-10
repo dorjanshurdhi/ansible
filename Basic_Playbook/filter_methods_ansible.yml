@@ -1,0 +1,30 @@
+#!/root/kubernetes/ansible/myansible/bin/ansible-playbook
+
+- name: This is to Display filter and method Operations on Variables
+
+  #since we are going to execute this arithmetic operations only for testing, we don't need to execute them on aws host but in our local host.
+  #for this reason we are going to change are host from "all" to "localhost"
+  #and we are going to remove "remote_user", "become" and "become_user" becouse we are not using them in this playbook
+  #hosts: all
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    a : "HeLLO thIS iS DoRJaN, aNd I'M a DevOPS ENginEEr"
+    b : 10
+    c : "20"
+
+  tasks:
+    - name: Operations on Variables
+      debug:
+        msg:
+          - "value of a is : {{ a }}"
+          - "value of b+c is : {{ b + c|int }}"  #in this way we can cast c as a int otherwise we will have an error
+          - "small case value of a : {{ a|lower }}"
+          - "capital case value of a : {{ a|upper }}"
+          - "Title case value of a : {{ a|title }}"
+          - "small case value of a : {{ a.lower() }} --Python Format"    ##python format function
+          - "capital case value of a : {{ a.upper() }} --Python Format"  ##python format function
+          - "Title case value of a : {{ a.title() }} --Python Format"    ##python format function
+          - "Split of string a : {{ a.lower().split() }} --Python Format (Split and lower)"
+          - "Split of string a : {{ a.upper().split() }} --Python Format (Split and upper)"

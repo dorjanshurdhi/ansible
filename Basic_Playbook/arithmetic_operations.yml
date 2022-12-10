@@ -1,0 +1,26 @@
+#!/root/kubernetes/ansible/myansible/bin/ansible-playbook
+
+- name: This is to Display Arithmetic Operations on Variables
+
+  #since we are going to execute this arithmetic operations only for testing, we don't need to execute them on aws host but in our local host.
+  #for this reason we are going to change are host from "all" to "localhost"
+  #and we are going to remove "remote_user", "become" and "become_user" becouse we are not using them in this playbook
+  #hosts: all
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    a : 10
+    b : 20
+
+  tasks:
+    - name: Operations on Variables
+      debug:
+        msg:
+          - "value of a is : {{ a }}"
+          - "value of b is : {{ b }}"
+          - "Addition of a & b : {{ a + b }}"
+          - "Subs of a & b : {{ a - b }}"
+          - "Multi of a & b : {{ a * b }}"
+          - "Devide of a & b : {{ a / b }}"
+

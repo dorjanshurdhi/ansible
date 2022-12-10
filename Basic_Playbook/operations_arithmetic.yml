@@ -1,0 +1,35 @@
+#!/root/kubernetes/ansible/myansible/bin/ansible-playbook
+
+- name: This is to Display Arithmetic Operations on Variables
+
+  #since we are going to execute this arithmetic operations only for testing, we don't need to execute them on aws host but in our local host.
+  #for this reason we are going to change are host from "all" to "localhost"
+  #and we are going to remove "remote_user", "become" and "become_user" becouse we are not using them in this playbook
+  #hosts: all
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    a : 10
+    b : "{{ a*10 }}"
+
+ #with "vars_prompt" we can pass variables at runtime
+  vars_prompt:
+    - name: x
+      prompt: Please enter Value of x
+      private: no  #in this way we can see the input at runtime
+    - name: y
+      prompt: Please enter Value of y
+      private: no  #in this way we can see the input at runtime
+
+  tasks:
+    - name: Operations on Variables
+      debug:
+        msg:
+          - "value of a is : {{ a }}"
+          - "value of b is : {{ b }}"
+          - "value of x is : {{ x }}"
+          - "value of y is : {{ y }}"
+          - "Addition of User Defined Values x,y is : {{ x+y }}"            #here is going to concatenate the 2 varibales, becouse it is going to read them as a string
+          - "Addition of User Defined Values x,y is : {{ x|int + y|int }}"  #here we are forcing x and y as a int
+          - "Multiple of User Defined Values x,y is : {{ x|int * y|int }}"  #here we are forcing x and y as a int

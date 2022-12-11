@@ -137,7 +137,7 @@
 
 ***
 
-> tags are key sensitive so be attend to write che tags name correctly
+> tags are key sensitive so be attention to write the tags name correctly
 
 ***
 

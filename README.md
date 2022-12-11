@@ -123,3 +123,6 @@
 
     ansible-playbook -i demo.aws_ec2.yml -u ec2-user playbook_intro/intro_palybook.yml --syntax-check
 
+**# to execude only some tasks in playbook you can use tags and call only you tags task**
+
+   ansible-playbook tags_in_ansible/tags.yml --tags first

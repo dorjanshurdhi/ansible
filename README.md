@@ -1,3 +1,5 @@
+![enter image description here](https://netapp.io/wp-content/uploads/2018/05/ansible.png)
+
 # Some Ansible Utils Commands
 **# ping machines under web_app group**
 
@@ -130,3 +132,13 @@
 **# you can run more than 1 tags together separeted by comma**
 
     ansible-playbook tads_in_ansible/tags.yml --tags, first,second
+
+~~
+
+***
+
+> tags are key sensitive so be attend to write che tags name correctly
+
+***
+
+~~

@@ -131,7 +131,11 @@
 
 **# you can run more than 1 tags together separeted by comma**
 
-    ansible-playbook tads_in_ansible/tags.yml --tags, first,second
+    ansible-playbook tags_in_ansible/tags.yml --tags first,second
+
+**# you can decide to run all tasks except those that have the tag**
+
+    ansible-playbook tags_in_ansible/tags.yml --skip-tags first
 
 ~~
 

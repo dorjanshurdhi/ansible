@@ -137,6 +137,10 @@
 
     ansible-playbook tags_in_ansible/tags.yml --skip-tags first
 
+**# if you don't know what and which tags you have, you can run thius commands to list them**
+
+    ansible-playbook tads_in_ansible/tags.yml --list-tags
+
 ~~
 
 ***

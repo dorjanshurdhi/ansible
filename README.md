@@ -126,3 +126,7 @@
 **# to execude only some tasks in playbook you can use tags and call only you tags task**
 
       ansible-playbook tags_in_ansible/tags.yml --tags first
+
+**# you can run more than 1 tags together separeted by comma**
+
+    ansible-playbook tads_in_ansible/tags.yml --tags, first,second

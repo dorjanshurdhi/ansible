@@ -1,0 +1,5 @@
+#!/root/kubernetes/ansible/myansible/bin/ansible-playbook
+
+- name: Play 1 - Task 2
+  debug:
+    msg: Play 1 - Task 2

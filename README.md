@@ -19,8 +19,7 @@
 
 **3. Install Dependencies**
 
-`sudo apt-get install python3-minimal python3-virtualenv python3-dev build-essential`
-
+    sudo apt-get install python3-minimal python3-virtualenv python3-dev build-essential
   
 **4. Set up virtualenv**
 
@@ -30,15 +29,15 @@
 
 **5. Activate Virtual Env**
 
-`source myansible/bin/activate`
+    source myansible/bin/activate
 
 **6. Install Ansible**
 
-`pip3 install ansible`
+    pip3 install ansible
 
 **7. Verify Ansible version**
 
-`ansible --version`
+    ansible --version
 
 
 # Some Ansible Utils Commands
